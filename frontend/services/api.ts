@@ -5,6 +5,8 @@ import {
     ExperienceShare,
     ExperienceShareWithAuthor,
     UserWithProfile,
+    ConversationWithUser,
+    Message,
 } from '@/types/database';
 import {
     mockUsers,
@@ -14,6 +16,8 @@ import {
     getUserById,
     getProfileByUserId,
     getPlacementByUserId,
+    getConversationsForUser,
+    getMessagesForConversation,
 } from '@/constants/mockData';
 
 // Simulate network delay
@@ -183,4 +187,33 @@ export async function updateMentorshipStatus(
         return { success: true };
     }
     return { success: false };
+}
+
+// ==================== MESSAGING ====================
+
+export async function fetchConversations(
+    userId: string
+): Promise<ConversationWithUser[]> {
+    await delay(API_DELAY);
+
+    const conversations = getConversationsForUser(userId);
+
+    return conversations.map((conv) => {
+        const otherUserId = conv.participants.find((p) => p !== userId)!;
+        const otherUser = getUserById(otherUserId)!;
+        const messages = getMessagesForConversation(conv.id);
+
+        return {
+            ...conv,
+            otherUser,
+            messages,
+        };
+    });
+}
+
+export async function fetchMessagesByConversation(
+    conversationId: string
+): Promise<Message[]> {
+    await delay(API_DELAY);
+    return getMessagesForConversation(conversationId);
 }

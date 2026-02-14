@@ -8,7 +8,7 @@ import { GraduationCap, User } from 'lucide-react';
 const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Feed', href: '/experiences' },
-    { label: 'Messages', href: '#' },
+    { label: 'Messages', href: '/messages' },
 ];
 
 export function TopNavbar() {
@@ -54,8 +54,11 @@ export function TopNavbar() {
                     </nav>
                 </div>
 
-                {/* Right: Avatar */}
+                {/* Right: Avatar + Name */}
                 <div className="flex items-center gap-3">
+                    <span className="hidden sm:inline text-sm font-medium text-slate-700">
+                        Rahul Verma
+                    </span>
                     <button className="h-9 w-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center shadow-md hover:shadow-lg transition-shadow ring-2 ring-white">
                         <User className="h-4 w-4 text-white" />
                     </button>

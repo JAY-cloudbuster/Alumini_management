@@ -243,3 +243,160 @@ export function getProfileByUserId(userId: string): StudentProfile | undefined {
 export function getPlacementByUserId(userId: string): PlacementDetail | undefined {
     return mockPlacementDetails.find((p) => p.user_id === userId);
 }
+
+// ==================== CONVERSATIONS ====================
+export const mockConversations: Conversation[] = [
+    {
+        id: 'conv_001',
+        participants: ['usr_002', 'usr_001'],
+        last_message: 'Thanks for the tips, Rahul! Really helpful 🙏',
+        last_message_at: '2026-02-14T16:45:00Z',
+        unread_count: 2,
+    },
+    {
+        id: 'conv_002',
+        participants: ['usr_002', 'usr_004'],
+        last_message: 'The Tesla interview was intense!',
+        last_message_at: '2026-02-14T14:20:00Z',
+        unread_count: 0,
+    },
+    {
+        id: 'conv_003',
+        participants: ['usr_002', 'usr_007'],
+        last_message: 'Product management is amazing at Microsoft',
+        last_message_at: '2026-02-13T21:10:00Z',
+        unread_count: 1,
+    },
+    {
+        id: 'conv_004',
+        participants: ['usr_002', 'usr_003'],
+        last_message: 'Congrats on Intel! 🎉',
+        last_message_at: '2026-02-13T10:05:00Z',
+        unread_count: 0,
+    },
+];
+
+// ==================== MESSAGES ====================
+export const mockMessages: Message[] = [
+    // conv_001: Rahul <-> Priya
+    {
+        id: 'msg_001',
+        conversation_id: 'conv_001',
+        sender_id: 'usr_001',
+        content: 'Hi Rahul! I saw your Google interview experience. That was really insightful!',
+        created_at: '2026-02-14T16:00:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_002',
+        conversation_id: 'conv_001',
+        sender_id: 'usr_002',
+        content: 'Hey Priya! Glad you found it useful. Let me know if you have any questions.',
+        created_at: '2026-02-14T16:05:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_003',
+        conversation_id: 'conv_001',
+        sender_id: 'usr_001',
+        content: 'How long did you prepare for the system design round?',
+        created_at: '2026-02-14T16:10:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_004',
+        conversation_id: 'conv_001',
+        sender_id: 'usr_002',
+        content: 'About 3 months. I used "Designing Data-Intensive Applications" and practiced on Excalidraw. Start with basic concepts and then move to distributed systems.',
+        created_at: '2026-02-14T16:20:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_005',
+        conversation_id: 'conv_001',
+        sender_id: 'usr_001',
+        content: 'Thanks for the tips, Rahul! Really helpful 🙏',
+        created_at: '2026-02-14T16:45:00Z',
+        is_read: false,
+    },
+
+    // conv_002: Rahul <-> Vikram
+    {
+        id: 'msg_006',
+        conversation_id: 'conv_002',
+        sender_id: 'usr_002',
+        content: 'Hey Vikram, how was your experience at Tesla?',
+        created_at: '2026-02-14T13:00:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_007',
+        conversation_id: 'conv_002',
+        sender_id: 'usr_004',
+        content: 'It was great! The CAD test was challenging but the team was very welcoming.',
+        created_at: '2026-02-14T13:30:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_008',
+        conversation_id: 'conv_002',
+        sender_id: 'usr_004',
+        content: 'The Tesla interview was intense!',
+        created_at: '2026-02-14T14:20:00Z',
+        is_read: true,
+    },
+
+    // conv_003: Rahul <-> Kavya
+    {
+        id: 'msg_009',
+        conversation_id: 'conv_003',
+        sender_id: 'usr_007',
+        content: 'Hi Rahul! Just got promoted to Senior PM at Microsoft! 🎉',
+        created_at: '2026-02-13T20:00:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_010',
+        conversation_id: 'conv_003',
+        sender_id: 'usr_002',
+        content: 'That\'s amazing Kavya! Congratulations! 🥳',
+        created_at: '2026-02-13T20:30:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_011',
+        conversation_id: 'conv_003',
+        sender_id: 'usr_007',
+        content: 'Product management is amazing at Microsoft',
+        created_at: '2026-02-13T21:10:00Z',
+        is_read: false,
+    },
+
+    // conv_004: Rahul <-> Ananya
+    {
+        id: 'msg_012',
+        conversation_id: 'conv_004',
+        sender_id: 'usr_002',
+        content: 'Congrats on Intel! 🎉',
+        created_at: '2026-02-13T10:05:00Z',
+        is_read: true,
+    },
+    {
+        id: 'msg_013',
+        conversation_id: 'conv_004',
+        sender_id: 'usr_003',
+        content: 'Thank you Rahul! Your mentorship really helped me prepare.',
+        created_at: '2026-02-13T10:15:00Z',
+        is_read: true,
+    },
+];
+
+// ==================== HELPER: Get conversations for user ====================
+export function getConversationsForUser(userId: string): Conversation[] {
+    return mockConversations.filter((c) => c.participants.includes(userId));
+}
+
+// ==================== HELPER: Get messages for conversation ====================
+export function getMessagesForConversation(conversationId: string): Message[] {
+    return mockMessages.filter((m) => m.conversation_id === conversationId);
+}
