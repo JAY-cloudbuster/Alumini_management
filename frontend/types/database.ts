@@ -52,3 +52,26 @@ export interface UserWithProfile extends User {
 export interface ExperienceShareWithAuthor extends ExperienceShare {
   author: User;
 }
+
+// Messaging Types
+export interface Message {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  content: string;
+  created_at: string;
+  is_read: boolean;
+}
+
+export interface Conversation {
+  id: string;
+  participants: string[]; // user IDs
+  last_message?: string;
+  last_message_at?: string;
+  unread_count: number;
+}
+
+export interface ConversationWithUser extends Conversation {
+  otherUser: User;
+  messages: Message[];
+}

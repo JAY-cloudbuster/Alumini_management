@@ -3,6 +3,8 @@ import {
     StudentProfile,
     PlacementDetail,
     ExperienceShare,
+    Message,
+    Conversation,
 } from '@/types/database';
 
 // ==================== USERS ====================

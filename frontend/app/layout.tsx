@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Sidebar, FloatingNav } from "@/components/layout";
+import { TopNavbar } from "@/components/layout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,16 +21,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased min-h-screen relative`}>
-        {/* Background Gradients handled in globals.css */}
-
-        {/* Navigation Layer */}
-        <Sidebar /> {/* Mobile Drawer */}
-        <FloatingNav /> {/* Desktop Dock */}
+      <body className={`${inter.variable} antialiased min-h-screen bg-slate-50`}>
+        {/* Top Navigation */}
+        <TopNavbar />
 
         {/* Content Layer */}
-        <main className="min-h-screen transition-all duration-300">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 lg:pl-32 py-8">
+        <main className="min-h-[calc(100vh-3.5rem)]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
             <div className="animate-fade-in delay-100">
               {children}
             </div>

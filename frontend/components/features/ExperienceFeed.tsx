@@ -2,7 +2,6 @@
 
 import { ExperienceShareWithAuthor, DifficultyLevel } from '@/types/database';
 import { Badge } from '@/components/ui/Badge';
-import { Card, CardContent } from '@/components/ui/Card';
 import {
     Building2,
     Briefcase,
@@ -11,6 +10,10 @@ import {
     User,
     CheckCircle2,
     AlertCircle,
+    Heart,
+    MessageCircle,
+    Share2,
+    Bookmark,
 } from 'lucide-react';
 
 interface ExperienceCardProps {
@@ -40,11 +43,11 @@ function DifficultyStars({ level }: { level: DifficultyLevel }) {
             {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                     key={i}
-                    className={`h-4 w-4 ${i < level ? 'fill-amber-400 text-amber-400' : 'text-slate-300'
+                    className={`h-3.5 w-3.5 ${i < level ? 'fill-amber-400 text-amber-400' : 'text-slate-300'
                         }`}
                 />
             ))}
-            <span className={`ml-1 text-sm font-medium ${getDifficultyColor(level)}`}>
+            <span className={`ml-1 text-xs font-medium ${getDifficultyColor(level)}`}>
                 {getDifficultyLabel(level)}
             </span>
         </div>
@@ -59,78 +62,76 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
     });
 
     return (
-        <Card hover className="overflow-hidden">
-            {/* Pending Approval Banner */}
-            {!experience.is_approved && (
-                <div className="bg-amber-50 border-b border-amber-200 px-6 py-2 flex items-center gap-2">
-                    <AlertCircle className="h-4 w-4 text-amber-600" />
-                    <span className="text-sm font-medium text-amber-800">
-                        Pending Approval
-                    </span>
+        <div className="relative">
+            {/* Timeline connector: Author info row */}
+            <div className="flex items-center gap-3 mb-3">
+                {/* Avatar (blue circle like the image) */}
+                <div className="h-10 w-10 rounded-full bg-indigo-500 flex items-center justify-center text-white shadow-md flex-shrink-0 z-10">
+                    <User className="h-5 w-5" />
                 </div>
-            )}
-
-            <CardContent className="pt-5">
-                {/* Header: Author + Date */}
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
-                            <User className="h-5 w-5 text-indigo-600" />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <span className="font-semibold text-slate-900">
-                                    {experience.author.full_name}
-                                </span>
-                                {experience.author.is_verified && (
-                                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                                )}
-                            </div>
-                            <div className="flex items-center gap-1 text-sm text-slate-500">
-                                <Clock className="h-3.5 w-3.5" />
-                                {createdAt}
-                            </div>
-                        </div>
-                    </div>
-                    <DifficultyStars level={experience.difficulty_level} />
-                </div>
-
-                {/* Company & Role */}
-                <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <div className="flex items-center gap-1.5">
-                        <Building2 className="h-4 w-4 text-slate-500" />
-                        <span className="font-semibold text-slate-900">
-                            {experience.company_name}
+                <div>
+                    <div className="flex items-center gap-2">
+                        <span className="font-semibold text-slate-900 text-sm">
+                            {experience.author.full_name}
                         </span>
+                        {experience.author.is_verified && (
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                        )}
                     </div>
-                    <span className="text-slate-300">•</span>
-                    <div className="flex items-center gap-1.5">
-                        <Briefcase className="h-4 w-4 text-slate-500" />
-                        <span className="text-slate-700">{experience.job_role}</span>
+                    <div className="flex items-center gap-1 text-xs text-slate-500">
+                        posted on {createdAt}
                     </div>
                 </div>
+            </div>
 
-                {/* Rounds Description */}
-                <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-slate-900 mb-2">
-                        Interview Rounds
-                    </h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                        {experience.rounds_description}
-                    </p>
-                </div>
+            {/* Post Card */}
+            <div className="ml-5 border-l-2 border-slate-200 pl-8">
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden transition-shadow duration-200 hover:shadow-md">
+                    {/* Pending Approval Banner */}
+                    {!experience.is_approved && (
+                        <div className="bg-amber-50 border-b border-amber-200 px-5 py-2 flex items-center gap-2">
+                            <AlertCircle className="h-4 w-4 text-amber-600" />
+                            <span className="text-sm font-medium text-amber-800">
+                                Pending Approval
+                            </span>
+                        </div>
+                    )}
 
-                {/* Preparation Tips */}
-                <div className="bg-indigo-50 rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-indigo-900 mb-2">
-                        💡 Preparation Tips
-                    </h4>
-                    <p className="text-sm text-indigo-800 leading-relaxed">
-                        {experience.preparation_tips}
-                    </p>
+                    <div className="p-5">
+                        {/* Title line: "Congrats to X joined as Y in Z" */}
+                        <h3 className="text-base font-bold text-slate-900 mb-3">
+                            Congrats to {experience.author.full_name} joined as {experience.job_role} in {experience.company_name}
+                        </h3>
+
+                        {/* Content area (rounds description) */}
+                        <div className="bg-slate-50 rounded-lg p-4 mb-4">
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                {experience.rounds_description}
+                            </p>
+                        </div>
+
+                        {/* Preparation Tips */}
+                        <div className="bg-indigo-50/60 rounded-lg p-4 mb-4 border border-indigo-100/50">
+                            <h4 className="text-sm font-semibold text-indigo-900 mb-1">
+                                💡 Preparation Tips
+                            </h4>
+                            <p className="text-sm text-indigo-800 leading-relaxed">
+                                {experience.preparation_tips}
+                            </p>
+                        </div>
+
+                        {/* Difficulty + Action Row */}
+                        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                            <DifficultyStars level={experience.difficulty_level} />
+
+                            <button className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-5 py-2 rounded-md transition-colors shadow-sm">
+                                Read More
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }
 
@@ -149,22 +150,20 @@ export function ExperienceFeed({
 
     if (filteredExperiences.length === 0) {
         return (
-            <Card>
-                <CardContent className="py-12 text-center">
-                    <Briefcase className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                        No Experiences Yet
-                    </h3>
-                    <p className="text-slate-500">
-                        Be the first to share your interview experience!
-                    </p>
-                </CardContent>
-            </Card>
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-12 text-center">
+                <Briefcase className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                    No Experiences Yet
+                </h3>
+                <p className="text-slate-500">
+                    Be the first to share your interview experience!
+                </p>
+            </div>
         );
     }
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-6">
             {filteredExperiences.map((experience) => (
                 <ExperienceCard key={experience.id} experience={experience} />
             ))}
